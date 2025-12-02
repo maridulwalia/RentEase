@@ -1,0 +1,50 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+# Ignore all Word docs
+*.docx
+*.doc
+
+# Ignore all PowerPoint files
+*.pptx
+*.ppt
+
+# Ignore the upload folders
+uploads/documents/*.jpg
+uploads/documents/*.jpeg
+uploads/documents/*.png
+uploads/evidence/*.jpg
+uploads/evidence/*.jpeg
+uploads/evidence/*.png
+uploads/items/*.jpg
+uploads/items/*.jpeg
+uploads/items/*.png
+uploads/profiles/*.jpg
+uploads/profiles/*.jpeg
+uploads/profiles/*.png
+Pictures to upload/
+
+createAdmin.js
