@@ -1,4 +1,3 @@
-
 # 📦 Rentease – Peer-to-Peer Rental Management Platform
 
 **Rentease** is a full-stack MERN web application designed to simplify and streamline peer-to-peer item rentals. It allows users to list items they own, browse items available for rent, manage bookings, track rental activity, and communicate through a unified platform.
@@ -36,34 +35,40 @@ Built with  **MongoDB, Express.js, React.js, and Node.js** , the application foc
 
 ---
 
-## 📁 Project Structure (High-Level)
+## 📁 Project Structure (High-Level)RENTEASE
 
-<pre class="overflow-visible!" data-start="2035" data-end="2281"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>rentease/
-│── backend/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── utils/
-│   └── config/
+├── server/                  # Backend (Node.js + Express)
+│   ├── config/              # DB config, environment setup, utility configs
+│   ├── controllers/         # Route logic / request handlers
+│   ├── middleware/          # Auth, validation, file upload, admin checks
+│   ├── models/              # Mongoose schemas & database models
+│   ├── routes/              # API route definitions
+│   └── app.js               # Main Express app entry point
 │
-│── frontend/
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── hooks/
-│   └── context/
+├── src/                     # Frontend (React + Vite + TypeScript)
+│   ├── components/          # Reusable UI components
+│   ├── hooks/               # Custom React hooks (auth, form, fetchers)
+│   ├── pages/               # Standalone page-level components
+│   ├── services/            # API service functions (Axios wrappers)
+│   ├── stores/              # State management (Zustand/Context)
+│   ├── utils/               # Helper functions & constants
+│   ├── App.tsx              # Root component
+│   └── main.tsx             # App bootstrap entry
 │
-└── README.md
-</span></span></code></div></div></pre>
+├── uploads/                 # Local storage for uploaded images/docs
+│
+├── .env                     # Environment variables
+├── .gitignore               # Git ignored files
+├── index.html               # Frontend HTML template
+
+├── server.js              # server file tu run backend
+└── package.json             # Project metadata & dependencies
 
 ---
 
 ## 🧩 Purpose
 
 Rentease aims to make renting as easy as online shopping — creating a trusted and user-friendly ecosystem where anyone can share or borrow items effortlessly.
-
-
 
 # 🛠️ Installation & Setup Guide
 
