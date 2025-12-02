@@ -37,36 +37,38 @@ Built with  **MongoDB, Express.js, React.js, and Node.js** , the application foc
 
 ## 📁 Project Structure (High-Level)RENTEASE
 
-├── server/                  # Backend (Node.js + Express)
-│   ├── config/              # DB config, environment setup, utility configs
-│   ├── controllers/         # Route logic / request handlers
-│   ├── middleware/          # Auth, validation, file upload, admin checks
-│   ├── models/              # Mongoose schemas & database models
-│   ├── routes/              # API route definitions
-│   └── app.js               # Main Express app entry point
+<pre class="overflow-visible!" data-start="564" data-end="1953"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>RENTEASE
 │
-├── src/                     # Frontend (React + Vite + TypeScript)
-│   ├── components/          # Reusable UI components
-│   ├── hooks/               # Custom React hooks (auth, form, fetchers)
-│   ├── pages/               # Standalone page-level components
-│   ├── services/            # API service functions (Axios wrappers)
-│   ├── stores/              # State management (Zustand/Context)
-│   ├── utils/               # Helper functions & constants
-│   ├── App.tsx              # Root component
-│   └── main.tsx             # App bootstrap entry
+├── server/                  </span><span># Backend (Node.js + Express)</span><span>
+│   ├── config/              </span><span># DB config, environment setup, utility configs</span><span>
+│   ├── controllers/         </span><span># Route logic / request handlers</span><span>
+│   ├── middleware/          </span><span># Auth, validation, file upload, admin checks</span><span>
+│   ├── models/              </span><span># Mongoose schemas & database models</span><span>
+│   ├── routes/              </span><span># API route definitions</span><span>
+│   └── app.js               </span><span># Main Express app entry point</span><span>
 │
-├── uploads/                 # Local storage for uploaded images/docs
+├── src/                     </span><span># Frontend (React + Vite + TypeScript)</span><span>
+│   ├── components/          </span><span># Reusable UI components</span><span>
+│   ├── hooks/               </span><span># Custom React hooks (auth, form, fetchers)</span><span>
+│   ├── pages/               </span><span># Standalone page-level components</span><span>
+│   ├── services/            </span><span># API service functions (Axios wrappers)</span><span>
+│   ├── stores/              </span><span># State management (Zustand/Context)</span><span>
+│   ├── utils/               </span><span># Helper functions & constants</span><span>
+│   ├── App.tsx              </span><span># Root component</span><span>
+│   └── main.tsx             </span><span># App bootstrap entry</span><span>
 │
-├── .env                     # Environment variables
-├── .gitignore               # Git ignored files
-├── index.html               # Frontend HTML template
-
-├── server.js              # server file tu run backend
-└── package.json             # Project metadata & dependencies
+├── uploads/                 </span><span># Local storage for uploaded images/docs</span><span>
+│
+├── server.js           </span><span># server file to run backend</span><span>
+├── .</span><span>env</span><span></span><span>               # Environment variables</span><span>
+├── .gitignore               </span><span># Git ignored files</span><span>
+├── index.html               </span><span># Frontend HTML template</span><span>
+└── package.json             </span><span># Project metadata & dependencies</span><span>
+</span></span></code></div></div></pre>
 
 ---
 
-## 🧩 Purpose
+# 📌 Backend API Architecture (Express.js)
 
 Rentease aims to make renting as easy as online shopping — creating a trusted and user-friendly ecosystem where anyone can share or borrow items effortlessly.
 
