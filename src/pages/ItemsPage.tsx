@@ -43,7 +43,11 @@ const ItemsPage = () => {
         limit:1000
       };
       const response = await itemsAPI.getItems(params);
-      setItems(response.data.data.items);
+      const normalized = (response.data.data.items || []).map((it: any) => ({
+        ...it,
+        rating: it.rating || { average: 0, count: 0 }
+      }));
+      setItems(normalized);
       setCurrentPage(1); // Reset to page 1 after search/filter change
     } catch (error) {
       console.error('Error fetching items:', error);
@@ -237,6 +241,16 @@ const ItemsPage = () => {
                 to={`/items/${item._id}`}
                 className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105 overflow-hidden border border-gray-200 group"
               >
+                {/*
+                  Normalize rating so we always show a value, even when rating
+                  hasn't been set yet (e.g., freshly created items).
+                */}
+                {(() => {
+                  if (!item.rating) {
+                    item.rating = { average: 0, count: 0 };
+                  }
+                  return null;
+                })()}
                 <div className="relative">
                   <img
                     src={item.images[0] || 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg'}
@@ -263,10 +277,10 @@ const ItemsPage = () => {
                     <span className="text-lg font-bold text-blue-600">
                       ₹{item.dailyPrice}/day
                     </span>
-                    <div className="flex items-center">
+                    <div className="flex items-center bg-yellow-50 px-2 py-1 rounded-lg">
                       <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600 ml-1">
-                        {item.rating.average.toFixed(1)} ({item.rating.count})
+                      <span className="text-sm font-semibold text-gray-700 ml-1">
+                        {item.rating?.average?.toFixed(1) || '0.0'} ({item.rating?.count || 0})
                       </span>
                     </div>
                   </div>

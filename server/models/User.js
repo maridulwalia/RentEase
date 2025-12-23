@@ -81,6 +81,19 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  verificationReason: {
+    type: String,
+    default: null
+  },
+  verificationDate: {
+    type: Date,
+    default: null
+  },
+  verifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
   isSuspended: {
     type: Boolean,
     default: false

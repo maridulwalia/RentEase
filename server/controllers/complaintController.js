@@ -15,7 +15,7 @@ const createComplaint = async (req, res) => {
       });
     }
 
-    const { defendantId, bookingId, type, subject, description } = req.body;
+    const { defendantId, bookingId, type, priority, subject, description } = req.body;
 
     // Check if defendant exists
     const defendant = await User.findById(defendantId);
@@ -52,6 +52,7 @@ const createComplaint = async (req, res) => {
       defendant: defendantId,
       booking: bookingId,
       type,
+      priority: priority || 'medium', // Use provided priority or default to 'medium'
       subject,
       description,
       evidence: req.files ? req.files.map(file => file.path) : []

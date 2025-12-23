@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Star, MessageCircle, Flag, Calendar } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Star, MessageCircle, Flag } from 'lucide-react';
 import { reviewsAPI } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
 
@@ -121,31 +121,19 @@ const ReviewsPage = () => {
               <div className="flex items-start justify-between">
                 <div className="flex items-start space-x-4 flex-1">
                   {/* Profile Image */}
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                     {activeTab === 'given' ? (
-                      review.reviewee?.profileImage ? (
-                        <img 
-                          src={review.reviewee.profileImage} 
-                          alt={review.reviewee.name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-lg font-medium text-gray-600">
-                          {review.reviewee?.name?.charAt(0) || 'U'}
-                        </span>
-                      )
+                      <img
+                        src={review.reviewee?.profileImage || 'https://via.placeholder.com/48?text=U'}
+                        alt={review.reviewee?.name || 'User'}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
                     ) : (
-                      review.reviewer?.profileImage ? (
-                        <img 
-                          src={review.reviewer.profileImage} 
-                          alt={review.reviewer.name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-lg font-medium text-gray-600">
-                          {review.reviewer?.name?.charAt(0) || 'U'}
-                        </span>
-                      )
+                      <img
+                        src={review.reviewer?.profileImage || 'https://via.placeholder.com/48?text=U'}
+                        alt={review.reviewer?.name || 'User'}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
                     )}
                   </div>
 

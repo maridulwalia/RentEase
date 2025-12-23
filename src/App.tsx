@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
-import MaintenanceNotice from './components/maintenance/MaintenanceNotice';
 import { useMaintenanceMode } from './hooks/useMaintenanceMode';
 import { useAuthStore } from './stores/authStore';
 
@@ -23,29 +22,28 @@ import ComplaintsPage from './pages/ComplaintsPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
 function AppInner() {
-  const { isMaintenanceMode, message, estimatedDowntime, isLoading } = useMaintenanceMode();
+  const { isMaintenanceMode, message, isLoading } = useMaintenanceMode();
   const { isAuthenticated, clearAuth, user } = useAuthStore();
-  const location = useLocation();
 
   // Handle logout on window close/unload
+  // Prevent accidental logout on refresh; only clear auth on explicit logout
+  // or when the browser is navigating away (not on reload/soft refresh).
   useEffect(() => {
     const handleBeforeUnload = () => {
-      if (isAuthenticated) {
-        // Clear auth on window close/tab close
+      const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      const isReload = nav?.type === 'reload';
+      if (isAuthenticated && !isReload) {
         clearAuth();
       }
+      // Allow normal behavior
+      return undefined;
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [isAuthenticated, clearAuth]);
 
   const isAdmin = user?.role === 'admin';
-  const isLoginRoute = location.pathname === '/login';
-  const isAdminRoute = location.pathname.startsWith('/admin');
 
   // During maintenance, we still render the full app but show a banner for non-admins
   // Critical write actions are already blocked on the backend by maintenance middleware.

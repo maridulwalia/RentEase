@@ -426,23 +426,37 @@ const UsersManagement = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
-                        user.isVerified 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {user.isVerified ? (
-                          <>
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            Verified
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="h-3 w-3 mr-1" />
-                            Unverified
-                          </>
+                      <div className="flex flex-col">
+                        <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${
+                          user.isVerified 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {user.isVerified ? (
+                            <>
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Verified
+                            </>
+                          ) : (
+                            <>
+                              <XCircle className="h-3 w-3 mr-1" />
+                              Unverified
+                            </>
+                          )}
+                        </span>
+                        {user.isVerified && user.verificationReason && (
+                          <span className="text-xs text-gray-500 mt-1" title={user.verificationReason}>
+                            Reason: {user.verificationReason.length > 30 
+                              ? `${user.verificationReason.substring(0, 30)}...` 
+                              : user.verificationReason}
+                          </span>
                         )}
-                      </span>
+                        {user.isVerified && user.verificationDate && (
+                          <span className="text-xs text-gray-500">
+                            {new Date(user.verificationDate).toLocaleDateString()}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
@@ -713,13 +727,22 @@ const ComplaintsManagement = () => {
                       >
                         View
                       </button>
-                      <button
-                        onClick={() => handleUpdateComplaint(complaint._id, { status: 'investigating' })}
-                        disabled={complaint.status === 'resolved'}
-                        className="text-yellow-600 hover:text-yellow-900 disabled:text-gray-400"
-                      >
-                        Investigate
-                      </button>
+                      {complaint.status !== 'closed' && complaint.status !== 'resolved' && (
+                        <>
+                          <button
+                            onClick={() => handleUpdateComplaint(complaint._id, { status: 'investigating' })}
+                            className="text-yellow-600 hover:text-yellow-900 mr-2"
+                          >
+                            Investigate
+                          </button>
+                          <button
+                            onClick={() => handleUpdateComplaint(complaint._id, { status: 'closed' })}
+                            className="text-gray-600 hover:text-gray-900"
+                          >
+                            Close
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -832,6 +855,18 @@ const ComplaintsManagement = () => {
                   >
                     Cancel
                   </button>
+                  {selectedComplaint.status !== 'closed' && selectedComplaint.status !== 'resolved' && (
+                    <button
+                      onClick={() => {
+                        const updateData: any = { status: 'closed' };
+                        if (adminNote) updateData.adminNote = adminNote;
+                        handleUpdateComplaint(selectedComplaint._id, updateData);
+                      }}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                    >
+                      Close
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       const updateData: any = {};
@@ -985,10 +1020,10 @@ const ReviewsManagement = () => {
                   Rating
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Reviewer
+                  Reviewee
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Reviewee
+                  Reviewer
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Item

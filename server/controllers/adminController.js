@@ -107,6 +107,7 @@ const getAllUsers = async (req, res) => {
 
     const users = await User.find(query)
       .select('-password')
+      .populate('verifiedBy', 'name')
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit);
@@ -259,12 +260,29 @@ const toggleUserVerification = async (req, res) => {
     }
 
     user.isVerified = !user.isVerified;
+    
+    // Store verification details
+    if (user.isVerified) {
+      user.verificationReason = reason || 'Verified by admin';
+      user.verificationDate = new Date();
+      user.verifiedBy = req.user.id;
+    } else {
+      // Clear verification details when unverifying
+      user.verificationReason = null;
+      user.verificationDate = null;
+      user.verifiedBy = null;
+    }
+    
     await user.save();
+
+    const populatedUser = await User.findById(user._id)
+      .populate('verifiedBy', 'name')
+      .select('-password');
 
     res.json({
       success: true,
       message: `User account ${user.isVerified ? 'verified' : 'unverified'} successfully`,
-      data: { user }
+      data: { user: populatedUser }
     });
 
   } catch (error) {

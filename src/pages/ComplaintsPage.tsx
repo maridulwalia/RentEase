@@ -4,7 +4,7 @@ import { complaintsAPI } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
 
 const ComplaintsPage = () => {
-  const { user } = useAuthStore();
+  useAuthStore(); // store subscription in case we need auth context; no direct usage
   const [complaints, setComplaints] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('filed');
@@ -227,6 +227,7 @@ const CreateComplaintModal = ({ onClose, onSuccess }: any) => {
     defendantId: '',
     bookingId: '',
     type: 'other',
+    priority: 'medium',
     subject: '',
     description: ''
   });
@@ -242,6 +243,13 @@ const CreateComplaintModal = ({ onClose, onSuccess }: any) => {
     { value: 'other', label: 'Other' },
   ];
 
+  const priorityOptions = [
+    { value: 'low', label: 'Low' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'high', label: 'High' },
+    { value: 'urgent', label: 'Urgent' },
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -250,6 +258,7 @@ const CreateComplaintModal = ({ onClose, onSuccess }: any) => {
       const formDataToSend = new FormData();
       formDataToSend.append('defendantId', formData.defendantId);
       formDataToSend.append('type', formData.type);
+      formDataToSend.append('priority', formData.priority);
       formDataToSend.append('subject', formData.subject);
       formDataToSend.append('description', formData.description);
       
@@ -296,6 +305,27 @@ const CreateComplaintModal = ({ onClose, onSuccess }: any) => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Priority *
+              </label>
+              <select
+                value={formData.priority}
+                onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              >
+                {priorityOptions.map((priority) => (
+                  <option key={priority.value} value={priority.value}>
+                    {priority.label}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-500 mt-1">
+                Select the urgency level of your complaint
+              </p>
             </div>
 
             <div>
@@ -370,6 +400,26 @@ const ComplaintDetailModal = ({ complaint, onClose, onUpdate }: any) => {
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
 
+  const localStatusColor = (status: string) => {
+    switch (status) {
+      case 'open': return 'bg-red-100 text-red-800';
+      case 'investigating': return 'bg-yellow-100 text-yellow-800';
+      case 'resolved': return 'bg-green-100 text-green-800';
+      case 'closed': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const localPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'urgent': return 'text-red-600';
+      case 'high': return 'text-orange-600';
+      case 'medium': return 'text-yellow-600';
+      case 'low': return 'text-green-600';
+      default: return 'text-gray-600';
+    }
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
@@ -391,7 +441,17 @@ const ComplaintDetailModal = ({ complaint, onClose, onUpdate }: any) => {
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Complaint Details</h2>
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold text-gray-900">Complaint Details</h2>
+              <div className="flex items-center space-x-2">
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${localStatusColor(complaint.status)}`}>
+                  {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1)}
+                </span>
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800`}>
+                  Priority: <span className={`ml-1 ${localPriorityColor(complaint.priority)}`}>{complaint.priority.toUpperCase()}</span>
+                </span>
+              </div>
+            </div>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600"

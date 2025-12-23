@@ -42,7 +42,11 @@ const ItemDetailPage = () => {
     try {
       const response = await itemsAPI.getItemById(id!);
       console.log('Fetched item:', response.data);
-      setItem(response.data.data.item);
+      const fetched = response.data.data.item;
+      setItem({
+        ...fetched,
+        rating: fetched?.rating || { average: 0, count: 0 }
+      });
     } catch (error) {
       console.error('Error fetching item:', error);
       navigate('/items');
@@ -201,6 +205,11 @@ const ItemDetailPage = () => {
     );
   }
 
+  // Normalize rating to ensure public visibility even when not set yet
+  if (!item.rating) {
+    item.rating = { average: 0, count: 0 };
+  }
+
   const costs = calculateTotalCost();
   const isOwner = user?._id === item?.owner?._id;
 
@@ -291,10 +300,10 @@ const ItemDetailPage = () => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{item.title}</h1>
               <div className="flex items-center space-x-4 mb-4">
-                <div className="flex items-center">
+                <div className="flex items-center bg-yellow-50 px-3 py-1.5 rounded-lg">
                   <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                  <span className="ml-1 text-sm text-gray-600">
-                    {item.rating.average.toFixed(1)} ({item.rating.count} reviews)
+                  <span className="ml-1 text-sm font-semibold text-gray-700">
+                    {item.rating?.average?.toFixed(1) || '0.0'} ({item.rating?.count || 0} reviews)
                   </span>
                 </div>
                 <div className="flex items-center text-sm text-gray-600">

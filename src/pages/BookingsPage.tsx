@@ -390,7 +390,7 @@ const BookingsPage = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     {[5, 4, 3, 2, 1].map(r => (
-                      <option key={r} value={r}>{r} {r === 5 ? '⭐' : r === 4 ? '⭐⭐' : r === 3 ? '⭐⭐⭐' : r === 2 ? '⭐⭐⭐⭐' : '⭐⭐⭐⭐⭐'}</option>
+                      <option key={r} value={r}>{r} {r === 1 ? '⭐' : r === 2 ? '⭐⭐' : r === 3 ? '⭐⭐⭐' : r === 4 ? '⭐⭐⭐⭐' : '⭐⭐⭐⭐⭐'}</option>
                     ))}
                   </select>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, Menu, X, ShoppingBag, Settings, LogOut, Shield } from 'lucide-react';
+import { Search, User, Menu, X, ShoppingBag, Settings, LogOut, Shield, AlertTriangle, MessageSquare } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 
 const Navbar = () => {
@@ -58,6 +58,18 @@ const Navbar = () => {
                   className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
                 >
                   Dashboard
+                </Link>
+                <Link 
+                  to="/reviews" 
+                  className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                >
+                  Reviews
+                </Link>
+                <Link 
+                  to="/complaints" 
+                  className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                >
+                  Complaints
                 </Link>
                 
                 {/* Profile Dropdown */}
@@ -186,6 +198,27 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Dashboard
+                </Link>
+                <Link
+                  to="/bookings"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Bookings
+                </Link>
+                <Link
+                  to="/reviews"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Reviews
+                </Link>
+                <Link
+                  to="/complaints"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Complaints
                 </Link>
                 <Link
                   to="/profile"
