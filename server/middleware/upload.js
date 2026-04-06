@@ -11,10 +11,12 @@ const fs = require('fs');
  * - Handles different upload categories (profiles, items, documents, evidence)
  */
 // Ensure upload directories exist
-const uploadDirs = ['uploads/profiles', 'uploads/items', 'uploads/documents', 'uploads/evidence'];
+const BASE_UPLOAD_DIR = path.join(__dirname, '..', '..', 'uploads');
+const uploadDirs = ['profiles', 'items', 'documents', 'evidence'];
 uploadDirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+  const fullDir = path.join(BASE_UPLOAD_DIR, dir);
+  if (!fs.existsSync(fullDir)) {
+    fs.mkdirSync(fullDir, { recursive: true });
   }
 });
 
@@ -31,20 +33,19 @@ uploadDirs.forEach(dir => {
 // Storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    let uploadPath = 'uploads/';
+    let subDir = 'misc';
     
     if (file.fieldname === 'profileImage') {
-      uploadPath += 'profiles/';
+      subDir = 'profiles';
     } else if (file.fieldname === 'images') {
-      uploadPath += 'items/';
+      subDir = 'items';
     } else if (file.fieldname === 'idProof') {
-      uploadPath += 'documents/';
+      subDir = 'documents';
     } else if (file.fieldname === 'evidence') {
-      uploadPath += 'evidence/';
-    } else {
-      uploadPath += 'misc/';
+      subDir = 'evidence';
     }
     
+    const uploadPath = path.join(BASE_UPLOAD_DIR, subDir);
     cb(null, uploadPath);
   },
   filename: function (req, file, cb) {

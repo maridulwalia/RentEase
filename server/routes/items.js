@@ -67,13 +67,15 @@ const itemValidation = [
 // Public routes
 router.get('/', getItems);
 router.get('/categories', getCategories);
-router.get('/:id', getItemById);
 
-// Protected routes
-router.post('/', auth, uploadItemImages, handleUploadError, itemValidation, createItem);
-router.put('/:id', auth, uploadItemImages, handleUploadError, updateItem);
-router.delete('/:id', auth, deleteItem);
+// Protected routes (must be before /:id to avoid param conflicts)
 router.get('/user/my-items', auth, getUserItems);
 router.post('/extend-rental', auth, extendRentalPeriod);
+router.post('/', auth, uploadItemImages, handleUploadError, itemValidation, createItem);
+
+// Dynamic param routes (must be last)
+router.get('/:id', getItemById);
+router.put('/:id', auth, uploadItemImages, handleUploadError, updateItem);
+router.delete('/:id', auth, deleteItem);
 
 module.exports = router;

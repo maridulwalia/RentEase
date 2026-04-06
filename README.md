@@ -1,149 +1,235 @@
-# 📦 Rentease – Peer-to-Peer Rental Management Platform
+# 📦 RentEase — Peer-to-Peer Rental Management Platform
 
-**Rentease** is a full-stack MERN web application designed to simplify and streamline peer-to-peer item rentals. It allows users to list items they own, browse items available for rent, manage bookings, track rental activity, and communicate through a unified platform.
+**RentEase** is a full-stack MERN web application that simplifies peer-to-peer item rentals. Users can list items they own, browse available rentals, manage bookings, track rental activity, and communicate — all from a single platform.
 
-The system brings structure, trust, and transparency to the sharing economy by providing verified user profiles, booking workflows, owner approvals, rental tracking, and an admin oversight layer.
+The system provides verified user profiles, structured booking workflows, owner approvals, rental tracking, and an admin oversight layer to bring trust and transparency to the sharing economy.
 
-Built with  **MongoDB, Express.js, React.js, and Node.js** , the application focuses on scalability, modular architecture, and future-ready expansion such as payment integration and cloud storage.
+> **Stack:** MongoDB · Express.js · React (Vite + TypeScript) · Node.js · Tailwind CSS · Zustand
 
 ---
 
 ## 🚀 Key Features
 
-* **User Authentication & Verification** – Secure login, ID verification, and role-based access.
-* **Item Listing System** – Owners can upload images, set rental rates, and manage availability.
-* **Rental Booking Flow** – Structured request → approval → pickup → completion cycle.
-* **Admin Panel** – User verification, complaint handling, and platform monitoring.
-* **Dashboard for All Roles** – Tailored views for owners, renters, and admins.
-* **Local File Uploads (with cloud-ready architecture)** – Images and documents stored locally for now, with planned integration of AWS S3 / Cloudinary.
-* **Scalable Backend Architecture** – REST APIs with clean modular controllers, routes, and services.
-* **Future Enhancements** – Payment gateway, automated security deposits, chat system, push notifications.
+| Feature | Description |
+|---|---|
+| **Auth & Verification** | JWT-based login, ID proof upload, role-based access (user / admin) |
+| **Item Listings** | Upload images, set rental rates, manage availability |
+| **Booking Flow** | Request → Approval → Pickup → Completion lifecycle |
+| **Wallet System** | In-app wallet with transaction history |
+| **Admin Panel** | User verification, complaint handling, maintenance mode, platform settings |
+| **Complaint System** | File complaints with evidence uploads and message threads |
+| **Review System** | Ratings for items and users, with report/moderation flow |
+| **Maintenance Mode** | Admin-controlled maintenance mode with real-time frontend banner |
+| **File Uploads** | Multer-based local storage (cloud-ready architecture) |
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React.js, Axios, Tailwind/Custom CSS
-
-**Backend:** Node.js, Express.js
-
-**Database:** MongoDB (Mongoose ORM)
-
-**Storage:** Local file system → planned cloud migration
-
-**Tools:** JWT Auth, Multer, Bcrypt, Nodemailer
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Zustand, Axios, React Router v7 |
+| **Backend** | Node.js, Express.js 5, Mongoose 8 |
+| **Database** | MongoDB |
+| **Auth** | JSON Web Tokens (JWT), Bcrypt |
+| **File Uploads** | Multer |
+| **Security** | Helmet, CORS, express-rate-limit, express-validator |
 
 ---
 
-## 📁 Project Structure (High-Level)RENTEASE
+## 📁 Project Structure
 
-<pre class="overflow-visible!" data-start="564" data-end="1953"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>RENTEASE
+```
+RENTEASE/
 │
-├── server/                  </span><span># Backend (Node.js + Express)</span><span>
-│   ├── config/              </span><span># DB config, environment setup, utility configs</span><span>
-│   ├── controllers/         </span><span># Route logic / request handlers</span><span>
-│   ├── middleware/          </span><span># Auth, validation, file upload, admin checks</span><span>
-│   ├── models/              </span><span># Mongoose schemas & database models</span><span>
-│   ├── routes/              </span><span># API route definitions</span><span>
-│   └── app.js               </span><span># Main Express app entry point</span><span>
+├── server/                   # Backend (Node.js + Express)
+│   ├── config/               # Database connection
+│   ├── controllers/          # Route logic / request handlers
+│   ├── middleware/           # Auth, validation, file upload, maintenance
+│   ├── models/               # Mongoose schemas (User, Item, Booking, Review, Complaint, Settings)
+│   └── routes/               # API route definitions
 │
-├── src/                     </span><span># Frontend (React + Vite + TypeScript)</span><span>
-│   ├── components/          </span><span># Reusable UI components</span><span>
-│   ├── hooks/               </span><span># Custom React hooks (auth, form, fetchers)</span><span>
-│   ├── pages/               </span><span># Standalone page-level components</span><span>
-│   ├── services/            </span><span># API service functions (Axios wrappers)</span><span>
-│   ├── stores/              </span><span># State management (Zustand/Context)</span><span>
-│   ├── utils/               </span><span># Helper functions & constants</span><span>
-│   ├── App.tsx              </span><span># Root component</span><span>
-│   └── main.tsx             </span><span># App bootstrap entry</span><span>
+├── src/                      # Frontend (React + Vite + TypeScript)
+│   ├── components/           # Reusable UI components (Navbar, Footer, ProtectedRoute, AdminRoute)
+│   ├── hooks/                # Custom React hooks (useMaintenanceMode)
+│   ├── pages/                # Page-level components
+│   │   ├── admin/            # Admin dashboard
+│   │   └── auth/             # Login & Register pages
+│   ├── services/             # Axios API wrappers
+│   ├── stores/               # Zustand state (authStore)
+│   ├── utils/                # Helper functions & error handling
+│   ├── App.tsx               # Root component with routing
+│   └── main.tsx              # App bootstrap
 │
-├── uploads/                 </span><span># Local storage for uploaded images/docs</span><span>
+├── uploads/                  # Local storage for uploaded files
+│   ├── profiles/
+│   ├── items/
+│   ├── documents/
+│   └── evidence/
 │
-├── server.js           </span><span># server file to run backend</span><span>
-├── .</span><span>env</span><span></span><span>               # Environment variables</span><span>
-├── .gitignore               </span><span># Git ignored files</span><span>
-├── index.html               </span><span># Frontend HTML template</span><span>
-└── package.json             </span><span># Project metadata & dependencies</span><span>
-</span></span></code></div></div></pre>
+├── server.js                 # Backend entry point
+├── index.html                # Frontend HTML template
+├── vite.config.ts            # Vite configuration (with dev proxy)
+├── tailwind.config.js        # Tailwind CSS configuration
+├── .env                      # Environment variables (not committed)
+├── .env.example              # Environment variable template — copy this to get started
+└── package.json              # Dependencies & npm scripts
+```
 
 ---
 
-# 📌 Backend API Architecture (Express.js)
+## ⚙️ API Endpoints
 
-Rentease aims to make renting as easy as online shopping — creating a trusted and user-friendly ecosystem where anyone can share or borrow items effortlessly.
-
-# 🛠️ Installation & Setup Guide
-
-Follow these steps to run **Rentease** locally on your machine.
+| Method | Route | Auth | Description |
+|--------|-------|------|-------------|
+| POST | `/api/auth/register` | Public | Register new user (with ID proof upload) |
+| POST | `/api/auth/login` | Public | Login and receive JWT |
+| GET | `/api/auth/profile` | User | Get current user profile |
+| PUT | `/api/auth/profile` | User | Update profile / profile image |
+| PUT | `/api/auth/change-password` | User | Change password |
+| POST | `/api/auth/add-to-wallet` | User | Add funds to wallet |
+| GET | `/api/items` | Public | Browse items (search, filter, paginate) |
+| GET | `/api/items/categories` | Public | Get categories with counts |
+| GET | `/api/items/:id` | Public | Get single item details |
+| POST | `/api/items` | User | Create a new listing |
+| PUT | `/api/items/:id` | Owner | Update a listing |
+| DELETE | `/api/items/:id` | Owner | Delete a listing |
+| GET | `/api/items/user/my-items` | User | Get own listings |
+| POST | `/api/bookings` | User | Create a booking |
+| GET | `/api/bookings` | User | List own bookings |
+| PUT | `/api/bookings/:id/status` | User | Update booking status |
+| GET | `/api/reviews/item/:id` | Public | Get reviews for an item |
+| POST | `/api/reviews` | User | Submit a review |
+| POST | `/api/complaints` | User | File a complaint |
+| GET | `/api/admin/dashboard` | Admin | Dashboard statistics |
+| GET | `/api/admin/users` | Admin | Manage users |
+| GET | `/api/admin/maintenance-status` | Public | Check maintenance mode |
 
 ---
 
-## **1️⃣ Prerequisites**
+## 🧰 Installation & Local Setup
 
-Make sure the following are installed:
+### Prerequisites
 
-* **Node.js** (v16+ recommended)
-* **MongoDB** (local or Atlas Cloud)
-* **Git**
-* A package manager (**npm** or  **yarn** )
+- **Node.js** v18+ ([download](https://nodejs.org))
+- **MongoDB** — local instance or [MongoDB Atlas](https://www.mongodb.com/atlas) (free tier)
+- **Git**
 
----
+### 1. Clone the Repository
 
-## **2️⃣ Clone the Repository**
+```bash
+git clone https://github.com/maridulwalia/RentEase.git
+cd RentEase
+```
 
-git clone https://github.com/maridulwalia/rentease.git
-cd rentease
+### 2. Install Dependencies
 
----
+```bash
+npm install
+```
 
-## **3️⃣ Backend & Frontend Setup**
+### 3. Configure Environment Variables
 
-### Navigate to backend folder:
+```bash
+# Copy the example file
+copy .env.example .env    # Windows
+# cp .env.example .env   # macOS / Linux
+```
 
-<pre class="overflow-visible!" data-start="639" data-end="661"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cd</span><span> backend
-</span></span></code></div></div></pre>
+Edit `.env` with your values:
 
-### Install dependencies:
-
-<pre class="overflow-visible!" data-start="689" data-end="712"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>npm install
-</span></span></code></div></div></pre>
-
-### Create a `.env` file:
-
-**Database Configuration**
-
+```env
+# Database
 MONGODB_URI=mongodb://localhost:27017/rentease
 
 NODE_ENV=development
 
-**JWT Configuration**
+# JWT — use a long random string in production
+JWT_SECRET=replace_with_a_long_random_secret
 
-JWT_SECRET=your_key
-
-**Server Configuration**
-
+# Server
 PORT=5000
-
 FRONTEND_URL=http://localhost:5173
 
-# File Upload Configuration
-
-UPLOAD_PATH=./server/uploads
-
+# File uploads
+UPLOAD_PATH=./uploads
 MAX_FILE_SIZE=5242880
 
-### Start backend server:
+# Frontend API URL (used during Vite production build)
+VITE_API_URL=http://localhost:5000/api
+```
 
-1. Open a terminal
-   2. Enter node server.js
+### 4. Start the Backend
 
-Backend will run on:
+```bash
+# Terminal 1
+node server.js
+```
 
-👉 **[http://localhost:5000]()**
+- Backend: `http://localhost:5000`
+- Health check: `http://localhost:5000/health`
 
-1. Open a new teerminal
-   2. Enter npm run dev
+### 5. Start the Frontend
 
-Frontend will run on:
+```bash
+# Terminal 2
+npm run dev
+```
 
-👉 **[http://localhost:5]()173**
+- Frontend: `http://localhost:5173`
+
+> The Vite dev server is pre-configured to **proxy** `/api` and `/uploads` requests to the backend — no extra CORS setup needed during development.
+
+---
+
+## 🏗️ Building for Production
+
+```bash
+# 1. Build the React frontend
+npm run build
+# Output goes to /dist
+
+# 2. Start the backend server
+NODE_ENV=production node server.js
+```
+
+For production deployment, set `FRONTEND_URL` and `VITE_API_URL` in your `.env` to your actual domain.  
+The backend serves the API; deploy the `/dist` frontend separately (e.g. Vercel, Netlify) or serve it via Express.
+
+---
+
+## 🔐 Security Notes
+
+- **Never commit `.env`** — it is already in `.gitignore`
+- Always use a **strong, unique `JWT_SECRET`** in production (e.g. 64+ random characters)
+- Uploaded files are stored locally in `/uploads` — for production, migrate to cloud storage (AWS S3 / Cloudinary)
+- Rate limiting: 1000 requests per 15 minutes per IP
+
+---
+
+## 🗂️ Admin Account Setup
+
+Use `createAdmin.js` to seed your first admin user locally:
+
+```bash
+node createAdmin.js
+```
+
+> `createAdmin.js` is not committed to the repository (it is in `.gitignore`).
+
+---
+
+## 📌 Future Work
+
+- [ ] Payment gateway integration (Razorpay / Stripe)
+- [ ] Real-time chat between renter and owner (Socket.io)
+- [ ] Cloud file storage migration (AWS S3 / Cloudinary)
+- [ ] Email notifications (Nodemailer)
+- [ ] Push notifications
+- [ ] Mobile app (React Native)
+
+---
+
+## 📄 License
+
+This project is built for academic and demonstration purposes.

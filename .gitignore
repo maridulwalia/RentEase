@@ -22,7 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files (never commit secrets)
 .env
+.env.local
+.env.*.local
 
 # Ignore all Word docs
 *.docx
@@ -33,19 +37,20 @@ dist-ssr
 *.ppt
 
 # Ignore the upload folders
-uploads/documents/*.jpg
-uploads/documents/*.jpeg
-uploads/documents/*.png
-uploads/evidence/*.jpg
-uploads/evidence/*.jpeg
-uploads/evidence/*.png
-uploads/items/*.jpg
-uploads/items/*.jpeg
-uploads/items/*.png
-uploads/profiles/*.jpg
-uploads/profiles/*.jpeg
-uploads/profiles/*.png
+uploads/documents/*
+uploads/evidence/*
+uploads/items/*
+uploads/profiles/*
+# Keep the folder structure
+!uploads/documents/.gitkeep
+!uploads/evidence/.gitkeep
+!uploads/items/.gitkeep
+!uploads/profiles/.gitkeep
+
+# Temp / local files
+build_output.txt
 Pictures to upload/
 
+# Scripts only for local use
 createAdmin.js
 test-maintenance.js

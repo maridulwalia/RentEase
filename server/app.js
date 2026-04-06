@@ -52,7 +52,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 // Maintenance mode middleware (before routes)
 app.use(maintenanceMode);
