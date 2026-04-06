@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { itemsAPI, bookingsAPI, reviewsAPI } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
+import { getImageUrl } from '../utils/getImageUrl';
 
 const ItemDetailPage = () => {
   const { id } = useParams();
@@ -165,12 +166,8 @@ const ItemDetailPage = () => {
   };
 
   // Fix image path backslashes
-  // Get the filename from the path stored in DB
-  const fileName = item?.images?.[currentImageIndex]?.split('\\').pop(); // 'images-1758777185431-735152577.jpg'
-
-  const imageUrl = fileName
-  ? `/uploads/items/${fileName}`
-  : 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg';
+  const currentImage = item?.images?.[currentImageIndex];
+  const imageUrl = currentImage ? getImageUrl(currentImage, 'items') : 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg';
 
   if (isLoading) {
     return (
@@ -285,7 +282,7 @@ const ItemDetailPage = () => {
                     }`}
                   >
                     <img
-                      src={`/uploads/items/${image.split('\\').pop()}`}
+                      src={getImageUrl(image, 'items')}
                       alt={`${item.title} ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
@@ -360,7 +357,7 @@ const ItemDetailPage = () => {
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   {item.owner?.profileImage ? (
                     <img 
-                      src={item.owner.profileImage} 
+                      src={getImageUrl(item.owner.profileImage, 'profiles') || 'https://via.placeholder.com/48?text=Owner'}
                       alt={item.owner?.name}
                       className="w-12 h-12 rounded-full object-cover"
                     />

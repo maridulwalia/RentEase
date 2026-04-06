@@ -34,7 +34,7 @@ uploadDirs.forEach(dir => {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let subDir = 'misc';
-    
+
     if (file.fieldname === 'profileImage') {
       subDir = 'profiles';
     } else if (file.fieldname === 'images') {
@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
     } else if (file.fieldname === 'evidence') {
       subDir = 'evidence';
     }
-    
+
     const uploadPath = path.join(BASE_UPLOAD_DIR, subDir);
     cb(null, uploadPath);
   },
@@ -78,11 +78,11 @@ const fileFilter = (req, file, cb) => {
     'idProof': /jpeg|jpg|png|pdf/,
     'evidence': /jpeg|jpg|png|pdf|doc|docx/
   };
-  
+
   const fileType = allowedTypes[file.fieldname] || /jpeg|jpg|png|pdf/;
   const extname = fileType.test(path.extname(file.originalname).toLowerCase());
   const mimetype = fileType.test(file.mimetype);
-  
+
   if (mimetype && extname) {
     return cb(null, true);
   } else {
@@ -153,14 +153,14 @@ const handleUploadError = (error, req, res, next) => {
       });
     }
   }
-  
+
   if (error.message.includes('Invalid file type')) {
     return res.status(400).json({
       success: false,
       message: error.message
     });
   }
-  
+
   next(error);
 };
 
