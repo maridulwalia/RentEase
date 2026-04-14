@@ -1,3 +1,151 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #0B0F19;
+    color: #d0d4e3;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background-color: rgba(124, 92, 252, 0.35);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0B0F19;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #252b42;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #353c5a;
+  }
+}
+
+@layer components {
+  /* ── Surface Card ─────────────────────────────── */
+  .glass-card {
+    background: #141824;
+    border: 1px solid rgba(124, 92, 252, 0.06);
+    border-radius: 16px;
+  }
+
+  .glass-card-hover {
+    background: #141824;
+    border: 1px solid rgba(124, 92, 252, 0.06);
+    border-radius: 16px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(124, 92, 252, 0.18);
+    background: #191e2e;
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(124, 92, 252, 0.08);
+  }
+
+  /* ── Accent Button ───────────────────────────── */
+  .btn-accent {
+    @apply inline-flex items-center justify-center px-8 py-3
+           font-semibold rounded-xl
+           transition-all duration-300 ease-out;
+    background: linear-gradient(135deg, #7C5CFC 0%, #6a47e6 100%);
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-accent:hover {
+    background: linear-gradient(135deg, #8b6ffc 0%, #7C5CFC 100%);
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 24px rgba(124, 92, 252, 0.35),
+      0 0 0 1px rgba(124, 92, 252, 0.15);
+  }
+
+  .btn-accent:active {
+    transform: translateY(0);
+  }
+
+  .btn-accent:disabled {
+    @apply opacity-40 cursor-not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* ── Ghost Button ────────────────────────────── */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-8 py-3
+           font-semibold rounded-xl
+           transition-all duration-300 ease-out;
+    color: #a8aec4;
+    border: 1px solid #252b42;
+  }
+
+  .btn-ghost:hover {
+    color: #7C5CFC;
+    border-color: rgba(124, 92, 252, 0.4);
+    background: rgba(124, 92, 252, 0.06);
+    transform: translateY(-1px);
+  }
+
+  /* ── Input Styles ────────────────────────────── */
+  .input-dark {
+    @apply w-full px-4 py-3 rounded-xl
+           text-dark-100 placeholder-dark-500
+           focus:outline-none
+           transition-all duration-300;
+    background: #0B0F19;
+    border: 1px solid #252b42;
+  }
+
+  .input-dark:focus {
+    border-color: rgba(124, 92, 252, 0.5);
+    box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.1);
+  }
+
+  /* ── Gradient Text ───────────────────────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, #7C5CFC 0%, #a088ff 40%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+  }
+
+  /* ── Tag / Badge ─────────────────────────────── */
+  .tag {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-lg
+           border transition-colors duration-200;
+  }
+
+  .tag-accent {
+    background: rgba(124, 92, 252, 0.12);
+    color: #a088ff;
+    border-color: rgba(124, 92, 252, 0.2);
+  }
+}

@@ -51,7 +51,7 @@ function AppInner() {
   // Critical write actions are already blocked on the backend by maintenance middleware.
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       {/* Maintenance banner for non-admin users */}
       {isMaintenanceMode && !isLoading && !isAdmin && (

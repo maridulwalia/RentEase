@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, UserPlus, Upload } from 'lucide-react';
+import { Eye, EyeOff, UserPlus, Upload, Shield, AlertCircle, ArrowRight } from 'lucide-react';
 import { authAPI } from '../../services/api';
 import { useAuthStore } from '../../stores/authStore';
 import { extractErrorMessage, logApiError } from '../../utils/errorHandler';
@@ -134,34 +134,36 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Join RentEase</h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              Sign in here
-            </Link>
-          </p>
+    <div className="min-h-screen pt-20 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute top-[10%] right-[20%] w-[500px] h-[500px] bg-accent-500/[0.04] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto w-full relative z-10">
+        <div className="text-center animate-fade-in">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent-500/10 border border-accent-500/15 mb-6">
+            <Shield className="h-7 w-7 text-accent-400" />
+          </div>
+          <h2 className="text-3xl font-extrabold text-white tracking-tight mb-2">Create Account</h2>
+          <p className="text-sm text-dark-400">Join RentEase to start renting and lending securely</p>
         </div>
 
-        <div className="mt-8 bg-white py-8 px-6 shadow-lg rounded-lg">
+        <div className="mt-8 glass-card py-8 px-6 sm:px-10 animate-fade-up">
           {errors.general && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
-              {errors.general}
+            <div className="mb-6 p-4 rounded-xl bg-red-500/8 border border-red-500/15 flex items-center space-x-3">
+              <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+              <span className="text-sm text-red-400">{errors.general}</span>
             </div>
           )}
 
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-8" onSubmit={handleSubmit}>
             {/* Personal Information */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+              <h3 className="text-lg font-semibold text-white mb-5 pb-2 border-b border-dark-800">Personal Information</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Full Name *
+                  <label htmlFor="name" className="block text-sm font-medium text-dark-200 mb-2">
+                    Full Name <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -170,14 +172,15 @@ const RegisterPage = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="e.g. John Doe"
                   />
-                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                  {errors.name && <p className="mt-2 text-xs text-red-400">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email Address *
+                  <label htmlFor="email" className="block text-sm font-medium text-dark-200 mb-2">
+                    Email Address <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="email"
@@ -186,14 +189,15 @@ const RegisterPage = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="you@example.com"
                   />
-                  {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                  {errors.email && <p className="mt-2 text-xs text-red-400">{errors.email}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Phone Number *
+                  <label htmlFor="phone" className="block text-sm font-medium text-dark-200 mb-2">
+                    Phone Number <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="tel"
@@ -202,16 +206,17 @@ const RegisterPage = () => {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="+91 9000000000"
                   />
-                  {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
+                  {errors.phone && <p className="mt-2 text-xs text-red-400">{errors.phone}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="idProof" className="block text-sm font-medium text-gray-700">
-                    ID Proof Document *
+                  <label htmlFor="idProof" className="block text-sm font-medium text-dark-200 mb-2">
+                    ID Proof Document <span className="text-red-400">*</span>
                   </label>
-                  <div className="mt-1 relative">
+                  <div className="relative">
                     <input
                       type="file"
                       name="idProof"
@@ -223,27 +228,31 @@ const RegisterPage = () => {
                     />
                     <label
                       htmlFor="idProof"
-                      className="flex items-center justify-center w-full px-3 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                      className={`flex items-center justify-center w-full px-4 py-3 border border-dashed rounded-xl cursor-pointer transition-all duration-300 ${
+                         idProof 
+                           ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
+                           : 'border-dark-600 bg-dark-900/50 text-dark-400 hover:border-accent-500/50 hover:text-accent-400'
+                      }`}
                     >
-                      <Upload className="h-5 w-5 text-gray-400 mr-2" />
-                      <span className="text-gray-600">
-                        {idProof ? idProof.name : 'Upload ID Proof (PDF, JPG, PNG)'}
+                      <Upload className="h-5 w-5 mr-2" />
+                      <span className="text-sm truncate max-w-[200px]">
+                        {idProof ? idProof.name : 'Upload ID Proof'}
                       </span>
                     </label>
                   </div>
-                  {errors.idProof && <p className="mt-1 text-sm text-red-600">{errors.idProof}</p>}
+                  {errors.idProof && <p className="mt-2 text-xs text-red-400">{errors.idProof}</p>}
                 </div>
               </div>
             </div>
 
             {/* Address Information */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Address Information</h3>
+              <h3 className="text-lg font-semibold text-white mb-5 pb-2 border-b border-dark-800">Address Details</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="md:col-span-2">
-                  <label htmlFor="address.street" className="block text-sm font-medium text-gray-700">
-                    Street Address *
+              <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label htmlFor="address.street" className="block text-sm font-medium text-dark-200 mb-2">
+                    Street Address <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -251,14 +260,15 @@ const RegisterPage = () => {
                     required
                     value={formData.address.street}
                     onChange={handleChange}
-                    placeholder="Enter street address"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Flat, House no., Building, Company, Apartment"
+                    className="input-dark"
                   />
+                  {errors.address?.street && <p className="mt-2 text-xs text-red-400">{errors.address.street}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="address.city" className="block text-sm font-medium text-gray-700">
-                    City *
+                  <label htmlFor="address.city" className="block text-sm font-medium text-dark-200 mb-2">
+                    City <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -266,14 +276,15 @@ const RegisterPage = () => {
                     required
                     value={formData.address.city}
                     onChange={handleChange}
-                    placeholder="Enter city name"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="e.g. Mumbai"
                   />
+                  {errors.address?.city && <p className="mt-2 text-xs text-red-400">{errors.address.city}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="address.state" className="block text-sm font-medium text-gray-700">
-                    State *
+                  <label htmlFor="address.state" className="block text-sm font-medium text-dark-200 mb-2">
+                    State <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -281,14 +292,15 @@ const RegisterPage = () => {
                     required
                     value={formData.address.state}
                     onChange={handleChange}
-                    placeholder="Enter state name"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="e.g. Maharashtra"
                   />
+                  {errors.address?.state && <p className="mt-2 text-xs text-red-400">{errors.address.state}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="address.zipCode" className="block text-sm font-medium text-gray-700">
-                    ZIP Code *
+                  <label htmlFor="address.zipCode" className="block text-sm font-medium text-dark-200 mb-2">
+                    ZIP Code <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -296,97 +308,106 @@ const RegisterPage = () => {
                     required
                     value={formData.address.zipCode}
                     onChange={handleChange}
-                    placeholder="Enter 6-digit ZIP code"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="input-dark"
+                    placeholder="e.g. 400001"
                   />
+                  {errors.address?.zipCode && <p className="mt-2 text-xs text-red-400">{errors.address.zipCode}</p>}
                 </div>
               </div>
             </div>
 
             {/* Password */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Security</h3>
+              <h3 className="text-lg font-semibold text-white mb-5 pb-2 border-b border-dark-800">Security</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Password *
+                  <label htmlFor="password" className="block text-sm font-medium text-dark-200 mb-2">
+                    Password <span className="text-red-400">*</span>
                   </label>
-                  <div className="mt-1 relative">
+                  <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      placeholder="Enter password"
-                      className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Min. 6 characters"
+                      className="input-dark pr-12"
                     />
                     <button
                       type="button"
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-dark-400 hover:text-accent-400 transition-colors"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400" />
-                      ) : (
-                        <Eye className="h-5 w-5 text-gray-400" />
-                      )}
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-                  {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+                  {errors.password && <p className="mt-2 text-xs text-red-400">{errors.password}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                    Confirm Password *
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-dark-200 mb-2">
+                    Confirm Password <span className="text-red-400">*</span>
                   </label>
-                  <div className="mt-1 relative">
+                  <div className="relative">
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       name="confirmPassword"
                       required
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      placeholder="Confirm your password"
-                      className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Repeat password"
+                      className="input-dark pr-12"
                     />
                     <button
                       type="button"
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-dark-400 hover:text-accent-400 transition-colors"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400" />
-                      ) : (
-                        <Eye className="h-5 w-5 text-gray-400" />
-                      )}
+                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-                  {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
+                  {errors.confirmPassword && <p className="mt-2 text-xs text-red-400">{errors.confirmPassword}</p>}
                 </div>
               </div>
             </div>
 
-            <div>
+            <div className="pt-6 border-t border-dark-800">
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="btn-accent w-full text-base gap-2 group !py-4"
               >
-                <UserPlus className="h-5 w-5 mr-2" />
-                {isLoading ? 'Creating Account...' : 'Create Account'}
+                {isLoading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </div>
 
-            <div className="text-xs text-gray-500 text-center">
+            <div className="text-xs text-dark-500 text-center leading-relaxed">
               By signing up, you agree to our{' '}
-              <Link to="/terms" className="text-blue-600 hover:text-blue-500">
+              <Link to="/terms" className="text-accent-400 hover:text-accent-300 transition-colors">
                 Terms of Service
               </Link>{' '}
               and{' '}
-              <Link to="/privacy" className="text-blue-600 hover:text-blue-500">
+              <Link to="/privacy" className="text-accent-400 hover:text-accent-300 transition-colors">
                 Privacy Policy
+              </Link>
+            </div>
+            
+            <div className="mt-6 text-center text-sm text-dark-500">
+              Already have an account?{' '}
+              <Link to="/login" className="font-medium text-accent-400 hover:text-accent-300 transition-colors">
+                Sign in here
               </Link>
             </div>
           </form>
